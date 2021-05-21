@@ -1,0 +1,139 @@
+{% extends 'back/layout.html' %}
+{% load widget_tweaks %}
+
+{% block title %}Dashboard{% endblock title %}
+{% block ph_title %}Dashboard{% endblock ph_title %}
+{% block content %}
+
+<div class="ecommerce-widget">
+                     <div class="pt-3">
+                        <form method="POST" id="urlform">
+                           {% csrf_token %}
+                           <div class="input-group w-xl-100 w-xxl-50 d-flex flex-end-center">
+                                 
+                              {% render_field form.url class="finalurl form-control shadow-lg border-0" id="url" type="text" placeholder="Paste a long url" %}
+                                                               <a class="copy-text btn btn-lg btn-warning" data-clipboard-target=".finalurl" id="clicked"><i class="far fa-copy"></i></a>                              
+
+                                <button class="btn btn-lg btn-success" type="submit">Shorten</button>
+
+                           </div>
+                        </form>
+                        <hr>       
+                     </div>
+                  
+
+                        <div class="row">
+                            <!-- ============================================================== -->
+                            <!-- sales  -->
+                            <!-- ============================================================== -->
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
+                                <div class="card border-3 border-top border-top-primary">
+                                    <div class="card-body">
+	                                    <div class="d-inline-block">
+	                                        <h5 class="text-muted">Total Links</h5>
+	                                        <h2 class="mb-0">{{linkcounts}}</h2>
+	                                    </div>
+	                                    <div class="float-right icon-circle-medium  icon-box-lg  bg-success-light mt-1">
+	                                        <i class="fa fa-link fa-fw fa-sm text-success"></i>
+	                                    </div>
+	                                </div>
+                                
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
+                                <div class="card border-3 border-top border-top-primary">
+                                    <div class="card-body">
+	                                    <div class="d-inline-block">
+	                                        <h5 class="text-muted">Total Clicks</h5>
+	                                        <h2 class="mb-0">{{clickcounts}}</h2>
+	                                    </div>
+	                                    <div class="float-right icon-circle-medium  icon-box-lg  bg-primary-light mt-1">
+	                                        <i class="fa fa-hand-point-up fa-fw fa-sm text-primary"></i>
+	                                    </div>
+	                                </div>
+                                
+                                </div>
+                            </div>
+                            <!-- ============================================================== -->
+                            <!-- end sales  -->
+                            <!-- ============================================================== -->
+                            <!-- ============================================================== -->
+                            <!-- new customer  -->
+                            <!-- ============================================================== -->
+                            {% if request.user.is_superuser %}
+
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
+                                <div class="card border-3 border-top border-top-primary">
+            
+                                    <div class="card-body">
+	                                    <div class="d-inline-block">
+	                                        <h5 class="text-muted">Total Users</h5>
+	                                        <h2 class="mb-0">{{usercount}}</h2>
+	                                    </div>
+	                                    <div class="float-right icon-circle-medium  icon-box-lg  bg-primary-light mt-1">
+	                                        <i class="fa fa-user fa-fw fa-sm text-primary"></i>
+	                                    </div>
+	                                </div>
+                                </div>
+                                
+                            </div>
+                            <!-- ============================================================== -->
+                            <!-- end new customer  -->
+                            <!-- ============================================================== -->
+                            <!-- ============================================================== -->
+                            <!-- visitor  -->
+                            <!-- ============================================================== -->
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
+                                <div class="card border-3 border-top border-top-primary">
+                                    <div class="card-body">
+	                                    <div class="d-inline-block">
+	                                        <h5 class="text-muted">Total Visitors</h5>
+	                                        <h2 class="mb-0">{{visitors}}</h2>
+	                                    </div>
+	                                    <div class="float-right icon-circle-medium  icon-box-lg  bg-info-light mt-1">
+	                                        <i class="fa fa-eye fa-fw fa-sm text-info"></i>
+	                                    </div>
+	                                </div>
+                                </div>
+                            </div>
+
+                            {% else %}
+
+                            
+                            {% endif %}
+                        
+                        </div>
+                        
+                        
+                    </div>
+
+                          <script>
+                          
+          $(function(){
+            new Clipboard('.copy-text');
+          });
+              $('#urlform').on('submit', function(event){
+         
+              event.preventDefault();
+              $.ajax({
+                url: "{% url 'home' %}",
+                type:'POST',
+                dataType: 'json',
+                data: {
+                  url: $("#url").val(),
+                  csrfmiddlewaretoken: '{{ csrf_token }}',
+          
+                },
+                success: function(json){
+                  $("#url").val('');
+                  $("#url").val(json.final_url);
+                }
+                
+              })
+          });
+          
+              
+      </script>
+      <script src="https://cdn.jsdelivr.net/clipboard.js/1.5.12/clipboard.min.js"></script>
+
+{% endblock content %}

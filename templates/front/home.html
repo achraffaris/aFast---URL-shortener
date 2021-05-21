@@ -1,0 +1,156 @@
+{% load static %}
+{% load widget_tweaks %}
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <!-- ===============================================-->
+      <!--    Document Title-->
+      <!-- ===============================================-->
+      <title>aFast | URL shortener</title>
+      <!-- ===============================================-->
+      <!--    Favicons-->
+      <!-- ===============================================-->
+      <link rel="apple-touch-icon" sizes="180x180" href="{% static 'front/assets/img/favicons/apple-touch-icon.png' %}">
+      <link rel="icon" type="image/png" sizes="32x32" href="{% static 'front/assets/img/favicons/favicon-32x32.png' %}">
+      <link rel="icon" type="image/png" sizes="16x16" href="{% static 'front/assets/img/favicons/favicon-16x16.png' %}">
+      <link rel="shortcut icon" type="image/x-icon" href="{% static 'front/assets/img/favicons/favicon.ico' %}">
+      <link rel="manifest" href="{% static 'front/assets/img/favicons/manifest.json' %}">
+          <link rel="stylesheet"  href="{% static 'back/assets/vendor/fonts/fontawesome/css/fontawesome-all.css' %}" >
+
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <meta name="msapplication-TileImage" content="{% static 'front/assets/img/favicons/mstile-150x150.png' %}">
+      <meta name="theme-color" content="#ffffff">
+      <!-- ===============================================-->
+      <!--    Stylesheets-->
+      <!-- ===============================================-->
+      <link href="{% static 'front/assets/css/theme.css' %}" rel="stylesheet" />
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
+   </head>
+   <body>
+      <!-- ===============================================-->
+      <!--    Main Content-->
+      <!-- ===============================================-->
+      <main class="main " id="top">
+         <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3 backdrop" data-navbar-on-scroll="data-navbar-on-scroll">
+            <div class="container">
+               <a class="navbar-brand d-flex align-items-center fw-bold fs-2" href="/">
+                  <div class="text-warning">a</div>
+                  <div class="text-1000">Fast</div>
+               </a>
+               <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+               <div class="collapse navbar-collapse border-top border-lg-0 mt-4 mt-lg-0" id="navbarSupportedContent">
+                  <ul class="navbar-nav ms-auto pt-2 pt-lg-0">
+                     {% if user.is_authenticated %}
+                                             <li class="nav-item"><a class="nav-link fw-medium active" aria-current="page" href="{% url 'dashboard' %}">Dashboard</a></li>
+                        <li class="nav-item"><a class="nav-link fw-medium active" aria-current="page" href="{% url 'logout' %}">Logout</a></li>
+                     {% else %}
+                     <li class="nav-item"><a class="nav-link fw-medium active" aria-current="page" href="{% url 'register' %}">Register</a></li>
+                     <li class="nav-item"><a class="nav-link fw-medium active" aria-current="page" href="{% url 'login' %}">Login</a></li>
+                     {% endif %}
+                  </ul>
+               </div>
+            </div>
+         </nav>
+         <section class="py-0">
+            <div class="bg-holder" style="background-image:url({% static 'front/assets/img/illustrations/hero-bg.png' %});background-position:bottom;background-size:cover;">
+            </div>
+            <!--/.bg-holder-->
+            <div class="container position-relative">
+               <div class="row align-items-center py-8">
+                  <div class="col-md-5 col-lg-6 order-md-1 text-center text-md-end"><img class="img-fluid" src="{% static 'front/assets/img/illustrations/www-pana.png' %}" width="350" alt=""></div>
+                  <div class="col-md-7 col-lg-6 text-center text-md-start">
+                     <span class="badge bg-light rounded-pill text-dark align-items-center d-flex flex-row-reverse justify-content-end mx-auto mx-md-0 ps-0 w-75 w-sm-50 w-md-75 w-xl-50 mb-3">#1 Editors Choice App of 2020<img class="img-fluid float-start me-3" src="{% static 'front/assets/img/illustrations/arrow-right.png' %}" alt=""/></span>
+                     <h1 class="mb-4 display-3 fw-bold lh-sm">Your Brand on
+                        <br class="d-block d-lg-none d-xl-block" />Your Links
+                     </h1>
+                     <div class="pt-3 container">
+                        <form method="POST" id="urlform">
+                           {% csrf_token %}
+                           <div class="input-group w-xl-100 w-xxl-50 d-flex flex-end-center">
+                                 
+                              {% render_field form.url class="finalurl form-control shadow-lg border-0" id="url" type="text" placeholder="Paste a URL" %}
+                                                               <a class="copy-text btn btn-lg btn-warning" data-clipboard-target=".finalurl" id="clicked" data-toggle="tooltip" data-placement="top" title="Copy The URL"><i class="far fa-copy"></i></a>                              
+
+                                <button class="btn btn-lg btn-success" type="submit" data-toggle="tooltip" data-placement="top" title="Shrink the URL"><i class="fas fa-link"></i></button>
+                           </div>
+                        </form>
+                        <hr>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            
+         </section>
+
+
+<section class="py-8 bg-1000">
+        <div class="container">
+          <div class="row flex-center">
+            <div class="col-auto mb-5"><a class="pe-2 d-flex align-items-center text-decoration-none fw-bold fs-3" href="#">
+                <div class="text-warning">a</div>
+                <div class="text-white">Fast</div>
+              </a></div>
+          </div>
+          <div class="row flex-center">
+            <div class="col-auto">
+              <p class="text-700">© {% now "Y" %}. A web application built in Django & made by <a class="text-700" href="https://achraffaris.net/" target="_blank">Achraf Faris </a> </p> <br> 
+              <p> Thanks <a class="text-700" href="https://themewagon.com/" target="_blank">ThemeWagon </a> For the UI</p>
+            </div>
+          </div>
+        </div><!-- end of .container-->
+      </section>
+         
+      
+         <!-- ============================================-->
+      </main>
+      <!-- ===============================================-->
+      <!--    End of Main Content-->
+      <!-- ===============================================-->
+      <script>
+          $(function(){
+            new Clipboard('.copy-text');
+          });
+              $('#urlform').on('submit', function(event){
+         
+              event.preventDefault();
+              $.ajax({
+                url: "{% url 'home' %}",
+                type:'POST',
+                dataType: 'json',
+                data: {
+                  url: $("#url").val(),
+                  csrfmiddlewaretoken: '{{ csrf_token }}',
+          
+                },
+                success: function(json){
+                  $("#url").val('');
+                  $("#url").val(json.final_url);
+
+                  
+                  
+                }
+                
+              })
+          });
+     $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})    
+          
+      </script>
+      <!-- ===============================================-->
+      <!--    JavaScripts-->
+      <!-- ===============================================-->
+      <script src="https://cdn.jsdelivr.net/clipboard.js/1.5.12/clipboard.min.js"></script>
+      <script src="{% static 'front/vendors/@popperjs/popper.min.js' %}"></script>
+      <script src="{% static 'front/vendors/bootstrap/bootstrap.min.js' %}"></script>
+      <script src="{% static 'front/vendors/is/is.min.js' %}"></script>
+      <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
+      <script src="{% static 'front/assets/js/theme.js' %}"></script>
+      <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400&amp;display=swap" rel="stylesheet">
+   </body>
+</html>

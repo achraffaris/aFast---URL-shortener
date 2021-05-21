@@ -1,0 +1,93 @@
+{% load static %}
+{% load widget_tweaks %}
+
+<!doctype html>
+<html lang="en">
+ 
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Sign Up</title>
+    <!-- Bootstrap CSS -->
+     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'front/assets/img/favicons/favicon-32x32.png' %}">
+      <link rel="icon" type="image/png" sizes="16x16" href="{% static 'front/assets/img/favicons/favicon-16x16.png' %}">
+      <link rel="shortcut icon" type="image/x-icon" href="{% static 'front/assets/img/favicons/favicon.ico' %}">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'back/assets/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <link href="{% static 'back/assets/vendor/fonts/circular-std/style.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'back/assets/libs/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'back/assets/vendor/fonts/fontawesome/css/fontawesome-all.css' %}">
+    <style>
+    html,
+    body {
+        height: 100%;
+    }
+
+    body {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-align: center;
+        align-items: center;
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
+    </style>
+</head>
+
+<body>
+    <!-- ============================================================== -->
+    <!-- login page  -->
+    <!-- ============================================================== -->
+    <div class="splash-container">
+        <div class="card ">
+            <div class="card-header text-center"><a href="{% url 'home' %}"><img class="logo-img" src="{% static 'back/assets/images/afast.png' %}" alt="logo"></a><span class="splash-description">Please enter your user information.</span></div>
+            <div class="card-body">
+                <form method="POST">
+                    {% csrf_token %}
+                    <label for="">Username</label>
+                     {% render_field form.username class="form-control form-control-lg mb-3" id="username" type="text" placeholder="Username" autocomplete="off" %}
+                                         <label for="">Email </label>
+
+                     {% render_field form.email class="form-control form-control-lg mb-3" id="email" type="text" placeholder="Email Address" autocomplete="off" %}
+                                         <label for="">Password</label>
+
+                     
+                     {% render_field form.password1 class="form-control form-control-lg mb-3" id="password1" type="password" placeholder="Enter a password" autocomplete="off" %}
+                                         <label for="">Confirm Password</label>
+
+                     {% render_field form.password2 class="form-control form-control-lg mb-3" id="password2" type="password" placeholder="Confirm the password" autocomplete="off" %}
+                    <input type="submit" class="btn btn-primary btn-lg btn-block" value="Sign Up">
+                </form>
+            </div>
+            <div class="card-footer bg-white p-0  ">
+                {% for msg in messages %}
+                    <div class="alert alert-secondary" role="alert">
+                        {{msg}}
+                    </div>
+                {% endfor %}
+                
+                <div class="card-footer-item card-footer-item-bordered">
+                    <a href="{% url 'register' %}" class="footer-link">Create An Account</a></div>
+                <div class="card-footer-item card-footer-item-bordered">
+                    <a href="#" class="footer-link">Forgot Password</a>
+                </div>
+            </div>
+            <div class="card-footer bg-white p-0  ">
+
+                <div class="card-footer-item card-footer-item-bordered">
+                    <h5>Already have an Account? <a href="{% url 'login' %}" class="footer-link">Login here.</a></h5>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+    <!-- ============================================================== -->
+    <!-- end login page  -->
+    <!-- ============================================================== -->
+    <!-- Optional JavaScript -->
+    <script src="{% static 'back/assets/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'back/assets/vendor/bootstrap/js/bootstrap.bundle.js' %}"></script>
+</body>
+ 
+</html>

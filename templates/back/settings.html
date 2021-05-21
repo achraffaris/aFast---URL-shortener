@@ -1,0 +1,24 @@
+{% extends 'back/layout.html' %}
+{% load widget_tweaks %}
+{% block title %}Settings{% endblock title %}
+{% block ph_title %}Settings{% endblock ph_title %}
+
+
+{% block content %}
+
+<div class="card">
+                                    <div class="card-body">
+                                        <h3 class="card-title">Security</h3>
+                                        <a href="{% url 'reset_password' %}" class="btn btn-info">Change My Password</a>
+                                    </div>
+                                </div>
+{% if request.user.is_superuser %}
+                            {% else %}
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h3 class="card-title">Account Management</h3>
+                                        <a href="#" class="btn btn-danger">Delete My account permantly</a>
+                                    </div>
+                                </div>
+                            {% endif %}
+{% endblock content %}      

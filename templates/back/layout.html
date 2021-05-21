@@ -1,0 +1,185 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+ 
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'front/assets/img/favicons/apple-touch-icon.png' %}">
+      <link rel="icon" type="image/png" sizes="32x32" href="{% static 'front/assets/img/favicons/favicon-32x32.png' %}">
+      <link rel="icon" type="image/png" sizes="16x16" href="{% static 'front/assets/img/favicons/favicon-16x16.png' %}">
+      <link rel="shortcut icon" type="image/x-icon" href="{% static 'front/assets/img/favicons/favicon.ico' %}">
+    <!-- Bootstrap CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"> </script>
+
+    <link rel="stylesheet" href="{% static 'back/assets/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <link href="{% static 'back/assets/vendor/fonts/circular-std/style.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'back/assets/libs/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'back/assets/vendor/fonts/fontawesome/css/fontawesome-all.css' %}">
+    <link rel="stylesheet" href="{% static 'back/assets/vendor/charts/chartist-bundle/chartist.css' %}">
+    <link rel="stylesheet" href="{% static 'back/assets/vendor/charts/morris-bundle/morris.css' %}">
+    <link rel="stylesheet" href="{% static 'back/assets/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'back/assets/vendor/charts/c3charts/c3.css' %}">
+          <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
+
+    <link rel="stylesheet" href="{% static 'back/assets/vendor/fonts/flag-icon-css/flag-icon.min.css' %}">
+    <title>aFast | {% block title %}{% endblock title %}</title>
+</head>
+
+<body>
+    <!-- ============================================================== -->
+    <!-- main wrapper -->
+    <!-- ============================================================== -->
+    <div class="dashboard-main-wrapper">
+        <!-- ============================================================== -->
+        <!-- navbar -->
+        <!-- ============================================================== -->
+        <div class="dashboard-header">
+            <nav class="navbar navbar-expand-lg bg-white fixed-top">
+                <a class="navbar-brand d-flex align-items-center fw-bold fs-2" href="/">
+                  <div class="text-warning">a</div>
+                  <div class="text-1000">Fast</div>
+               </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse " id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto navbar-right-top">
+                        
+                        
+                        
+                        <li class="nav-item dropdown nav-user">
+                            <a class="nav-link nav-user-img" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{% static 'back/assets/images/user.png' %}" alt="" class="user-avatar-md rounded-circle"></a>
+                            <div class="dropdown-menu dropdown-menu-right nav-user-dropdown" aria-labelledby="navbarDropdownMenuLink2">
+                                <div class="nav-user-info">
+                                    <h5 class="mb-0 text-white nav-user-name">{{request.user}}</h5>
+                                    <span class="status"></span><span class="ml-2">Available</span>
+                                </div>
+                                <a class="dropdown-item" href="{% url 'settings' %}"><i class="fas fa-cog mr-2"></i>Setting</a>
+                                <a class="dropdown-item" href="{% url 'logout' %}"><i class="fas fa-power-off mr-2"></i>Logout</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <!-- ============================================================== -->
+        <!-- end navbar -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- left sidebar -->
+        <!-- ============================================================== -->
+        <div class="nav-left-sidebar sidebar-dark">
+            <div class="menu-list">
+                <nav class="navbar navbar-expand-lg navbar-light">
+                <a class="d-xl-none d-lg-none" href="#">Dashboard</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav flex-column">
+                            <li class="nav-divider">
+                                Menu
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="{% url 'dashboard' %}"><i class="fa fa-chart-line"></i>Dashboard</a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="{% url 'links' %}"><i class="fa fa-fw fa-link"></i>Links</a>
+                            </li>
+                            {% if request.user.is_superuser %}
+
+                            <li class="nav-item ">
+                                <a class="nav-link" href="{% url 'users' %}"><i class="fa fa-fw fa-user-circle"></i>Users</a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
+
+        <div class="dashboard-wrapper">
+            <div class="dashboard-ecommerce">
+                <div class="container-fluid dashboard-content ">
+                    <!-- ============================================================== -->
+                    <!-- pageheader  -->
+                    <!-- ============================================================== -->
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div class="page-header">
+                                <h2 class="pageheader-title">{% block ph_title %}{% endblock ph_title %} </h2>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ============================================================== -->
+                    <!-- end pageheader  -->
+                    <!-- ============================================================== -->
+                    <div class="ecommerce-widget"> 
+                                {% block content %}
+        
+            
+        
+                                 {% endblock content %}  
+
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <div class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                             Copyright © 2021 aFast. All rights reserved. Dashboard by <a href="https://colorlib.com/wp/">Colorlib</a>.
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="text-md-right footer-links d-none d-sm-block">
+                                <a href="javascript: void(0);">About</a>
+                                <a href="javascript: void(0);">Support</a>
+                                <a href="javascript: void(0);">Contact Us</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- end footer -->
+            <!-- ============================================================== -->
+        </div>
+
+
+
+        <!-- end wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- end main wrapper  -->
+    <!-- ============================================================== -->
+    <!-- Optional JavaScript -->
+    <!-- jquery 3.3.1 -->
+    <script src="{% static 'back/assets/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
+    <!-- bootstap bundle js -->
+    <script src="{% static 'back/assets/vendor/bootstrap/js/bootstrap.bundle.js' %}"></script>
+    <!-- slimscroll js -->
+    <script src="{% static 'back/assets/vendor/slimscroll/jquery.slimscroll.js' %}"></script>
+    <!-- main js -->
+    <script src="{% static 'back/assets/libs/js/main-js.js' %}"></script>
+    <!-- chart chartist js -->
+    <script src="{% static 'back/assets/vendor/charts/chartist-bundle/chartist.min.js' %}"></script>
+    <!-- sparkline js -->
+    <script src="{% static 'back/assets/vendor/charts/sparkline/jquery.sparkline.js' %}"></script>
+    <!-- morris js -->
+    <script src="{% static 'back/assets/vendor/charts/morris-bundle/raphael.min.js' %}"></script>
+    <script src="{% static 'back/assets/vendor/charts/morris-bundle/morris.js' %}"></script>
+    <!-- chart c3 js -->
+    <script src="{% static 'back/assets/vendor/charts/c3charts/c3.min.js' %}"></script>
+    <script src="{% static 'back/assets/vendor/charts/c3charts/d3-5.4.0.min.js' %}"></script>
+    <script src="{% static 'back/assets/vendor/charts/c3charts/C3chartjs.js' %}"></script>
+    <script src="{% static 'back/assets/libs/js/dashboard-ecommerce.js' %}"></script>
+</body>
+ 
+</html>

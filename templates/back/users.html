@@ -1,0 +1,70 @@
+{% extends 'back/layout.html' %}
+{% load widget_tweaks %}
+{% block title %}Users Management{% endblock title %}
+{% block ph_title %}Users Management{% endblock ph_title %}
+
+
+{% block content %}
+                        <div class="card">
+                            <h5 class="card-header">All Users</h5>
+                            <div class="card-body p-0">
+                                <div class="table-responsive">
+                                <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Username</th>
+                                                <th scope="col">Email</th>
+                                                <th scope="col">Status</th>
+                                                <th scope="col">Manage</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for user in page_obj %}
+                                        <tr>
+                                                <th scope="row">{{user.id}}</th>
+                                                <td>{{user.username}}</td>
+                                                <td>{{user.email}}</td>
+
+                                                <td>{% if user.is_active %}
+                                                <span class="badge-dot badge-success mr-1"></span>
+                                                    Active
+                                                {% else %}
+                                                <span class="badge-dot badge-danger mr-1"></span>
+                                                    Non Active
+                                                {% endif %}</td>
+                                                <form method='POST' action="{% url 'delete_user' user.id %}">
+                                                {% csrf_token %}
+                                                
+                                                <td><button type="submit" class="btn btn-sm"><i class="fas fa-trash-alt"></i></button></td>
+                                                </form>
+                                        </tr>
+                                        {% endfor %}
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-end">
+          {% if page_obj.has_previous %}
+
+    <li class="page-item">
+      <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1">Previous</a>
+    </li>
+
+            {% endif %}
+            {% if page_obj.has_next %}
+
+    <li class="page-item">
+      <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+    </li>
+            {% endif %}
+
+  </ul>
+</nav>                            </div>
+                        </div>
+
+
+{% endblock content %}

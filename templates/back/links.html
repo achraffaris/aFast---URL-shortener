@@ -1,0 +1,76 @@
+{% extends 'back/layout.html' %}
+{% load widget_tweaks %}
+{% block title %}Links Management{% endblock title %}
+{% block ph_title %}Links Management{% endblock ph_title %}
+
+
+{% block content %}
+
+
+
+<div class="card">
+                            <h5 class="card-header">All Links</h5>
+                            <div class="card-body p-0">
+                                <div class="table-responsive" id="link_list">
+                                <table class="table table-striped" >
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Original</th>
+                                                <th scope="col">Shorted</th>
+                                                <th scope="col">Creation Date</th>
+                                                <th scope="col">Total Clicks</th>
+                                                {% if request.user.is_superuser %}
+                                                <th scope="col">User</th>
+                                                {% endif %}
+                                                <th scope="col">Manage</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody >
+                                        {% for url in page_obj %}
+                                        <tr>
+                                                <th scope="row">{{url.id}}</th>
+                                                <td><a target="_blank" href="{{url.url}}">{{url.url}}</a></td>
+                                                <td><a href="{% url 'redirect' url.slug %}">{{request.get_host}}/{{url.slug}}</a></td>
+                                                <td>{{url.created_at}}</td>
+                                                <td>{{url.clicks}} </td>
+                                                {% if request.user.is_superuser %}
+                                                <td>{{url.user.username}}</td>
+                                                {% endif %}
+                                                <form method="POST" id="delete_link" action ="{% url 'delete_link' url.id %}">
+                                                {% csrf_token %}
+                                                <td><button type="submit" href="{% url 'delete_link' url.id %}" class="btn btn-sm"><i class="fas fa-trash-alt"></i></button></td>
+                                                </form>
+                                                
+                                        </tr>
+                                        {% endfor %}
+
+                                        </tbody>
+                                        
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="card-footer text-center">
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-end">
+          {% if page_obj.has_previous %}
+
+    <li class="page-item">
+      <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1">Previous</a>
+    </li>
+
+            {% endif %}
+            {% if page_obj.has_next %}
+
+    <li class="page-item">
+      <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+    </li>
+            {% endif %}
+
+  </ul>
+</nav>                            </div>
+                        </div>
+
+                        
+
+{% endblock content %}
